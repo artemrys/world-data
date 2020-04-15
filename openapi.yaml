@@ -1,0 +1,111 @@
+swagger: '2.0'
+info:
+  title: World Data
+  description: World Data API
+  version: 1.0.0
+host: world-data-ttqgpckfqa-ew.a.run.app
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+
+x-google-management:
+  metrics:
+    - name: "v1-read-requests"
+      displayName: "/api/v1/ read requests"
+      valueType: INT64
+      metricKind: DELTA
+  quota:
+    limits:
+      - name: "v1-read-limit"
+        metric: "v1-read-requests"
+        unit: "1/min/{project}"
+        values:
+          STANDARD: 100
+paths:
+  /api/v1/countries:
+    get:
+      summary: Gets all the countries
+      operationId: v1_countries
+      x-google-backend:
+        address: https://us-central1-world-data-274301.cloudfunctions.net/get-countries
+      responses:
+        '200':
+          description: A successful response
+      x-google-quota:
+        metricCosts:
+          "v1-read-requests": 1
+      security:
+        - api_key: []
+  /api/v1/countries/{country}:
+    get:
+      summary: Gets country specific information
+      operationId: v1_country
+      x-google-backend:
+        address: https://us-central1-world-data-274301.cloudfunctions.net/get-country-info
+        path_translation: CONSTANT_ADDRESS
+      parameters:
+        - in: path
+          name: country
+          type: string
+          required: true
+      responses:
+        '200':
+          description: A successful response
+      x-google-quota:
+        metricCosts:
+          "v1-read-requests": 1
+      security:
+        - api_key: []
+  /api/v1/countries/{country}/cities:
+    get:
+      summary: Gets country specific cities
+      operationId: v1_cities
+      x-google-backend:
+        address: https://us-central1-world-data-274301.cloudfunctions.net/get-cities
+        path_translation: CONSTANT_ADDRESS
+      parameters:
+          - in: path
+            name: country
+            type: string
+            required: true
+      responses:
+        '200':
+          description: A successful response
+      x-google-quota:
+        metricCosts:
+          "v1-read-requests": 1
+      security:
+            - api_key: []
+  /api/v1/countries/{country}/cities/{city}:
+    get:
+      summary: Gets specific city
+      operationId: v1_city
+      x-google-backend:
+        address: https://us-central1-world-data-274301.cloudfunctions.net/get-city-info
+        path_translation: CONSTANT_ADDRESS
+      parameters:
+          - in: path
+            name: country
+            type: string
+            required: true
+          - in: path
+            name: city
+            type: string
+            required: true
+      responses:
+        '200':
+          description: A successful response
+      x-google-quota:
+        metricCosts:
+          "v1-read-requests": 1
+      security:
+            - api_key: []
+
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "key"
+    in: "query"
