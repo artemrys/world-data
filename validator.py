@@ -15,7 +15,5 @@ def get_cities_validator(request: flask.Request):
 
 
 def get_city_validator(request: flask.Request):
-    if request.args.get("country") is None:
-        raise BadRequest
     if request.args.get("city") is None:
         raise BadRequest

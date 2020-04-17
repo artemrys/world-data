@@ -34,16 +34,11 @@ def test_get_cities_validator_bad_request(app):
 
 def test_get_city_validator(app):
     with app.test_request_context(
-            query_string={"country": "pl", "city": "krakow"}):
+            query_string={"city": "krakow"}):
         validator.get_city_validator(flask.request)
 
 
-@pytest.mark.parametrize("query_string", [
-    {"query_string": {}},
-    {"query_string": {"country": "pl"}},
-    {"query_string": {"city": "krakow"}},
-])
-def test_get_city_validator_bad_request(app, query_string):
-    with app.test_request_context(*query_string):
+def test_get_city_validator_bad_request(app):
+    with app.test_request_context():
         with pytest.raises(validator.BadRequest):
             validator.get_city_validator(flask.request)
