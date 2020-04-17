@@ -5,8 +5,8 @@ import flask
 import werkzeug
 from google.cloud import firestore
 
-import validator
 import models
+import validator
 
 BadRequest = werkzeug.exceptions.BadRequest
 NotFound = werkzeug.exceptions.NotFound
@@ -19,8 +19,9 @@ db = firestore.Client(
 def get_countries(_: flask.Request):
     countries_stream = db.collection("countries").stream()
     countries = [
-        country.id
-        for country in countries_stream
+        models.Country.from_dict(
+            country_doc.id, country_doc.to_dict()).to_dict()
+        for country_doc in countries_stream
     ]
     return flask.jsonify(countries)
 
@@ -33,7 +34,15 @@ def get_country(request: flask.Request):
     country_doc = country_ref.get()
     if not country_doc.exists:
         raise NotFound
-    return flask.jsonify(country_doc.to_dict())
+    country_years_ref = country_ref.collection("years")
+    country_years = [
+        models.CountryYear.from_dict(
+            country_year_doc.id, country_year_doc.to_dict())
+        for country_year_doc in country_years_ref.stream()
+    ]
+    country = models.Country.from_dict(
+        country_doc.id, country_doc.to_dict(), country_years)
+    return flask.jsonify(country.to_dict())
 
 
 def get_cities(request: flask.Request):
