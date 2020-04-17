@@ -46,7 +46,7 @@ def get_cities(request: flask.Request):
     cities_ref = db.collection("cities")
     query = cities_ref.where("country", "==", country_ref)
     cities = [
-        city_doc.id
+        models.City.from_dict(city_doc.id, city_doc.to_dict()).to_dict()
         for city_doc in query.stream()
     ]
     return flask.jsonify(cities)
@@ -65,5 +65,5 @@ def get_city(request: flask.Request):
         models.CityYear.from_dict(city_year_doc.id, city_year_doc.to_dict())
         for city_year_doc in city_years_ref.stream()
     ]
-    city = models.City.from_dict(city_doc.to_dict(), city_years)
+    city = models.City.from_dict(city_doc.id, city_doc.to_dict(), city_years)
     return flask.jsonify(city.to_dict())
