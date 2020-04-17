@@ -21,7 +21,7 @@ def get_countries(_: flask.Request):
         country.id
         for country in countries_stream
     ]
-    return flask.jsonify({"countries": countries})
+    return flask.jsonify(countries)
 
 
 def get_country(request: flask.Request):
@@ -31,7 +31,7 @@ def get_country(request: flask.Request):
     country_doc = country_ref.get()
     if not country_doc.exists:
         raise NotFound
-    return flask.jsonify({"country": country_doc.to_dict()})
+    return flask.jsonify(country_doc.to_dict())
 
 
 def get_cities(request: flask.Request):
@@ -46,7 +46,7 @@ def get_cities(request: flask.Request):
         city_doc.id
         for city_doc in query.stream()
     ]
-    return flask.jsonify({"cities": cities})
+    return flask.jsonify(cities)
 
 
 def get_city(request: flask.Request):
