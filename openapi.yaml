@@ -79,7 +79,7 @@ paths:
           "v1-read-requests": 1
       security:
             - api_key: []
-  /api/v1/countries/{country}/cities/{city}:
+  /api/v1/cities/{city}:
     get:
       summary: Gets specific city
       operationId: v1_city
@@ -87,10 +87,6 @@ paths:
         address: https://us-central1-world-data-274301.cloudfunctions.net/get-city-info
         path_translation: CONSTANT_ADDRESS
       parameters:
-          - in: path
-            name: country
-            type: string
-            required: true
           - in: path
             name: city
             type: string
