@@ -56,5 +56,10 @@ def get_city(request: flask.Request):
     city_doc = city_ref.get()
     if not city_doc.exists:
         raise NotFound
-    city = models.City.from_dict(city_doc.to_dict())
-    return flask.jsonify({"city": city.to_dict()})
+    city_years_ref = city_ref.collection("years")
+    city_years = [
+        models.CityYear.from_dict(city_year_doc.id, city_year_doc.to_dict())
+        for city_year_doc in city_years_ref.stream()
+    ]
+    city = models.City.from_dict(city_doc.to_dict(), city_years)
+    return flask.jsonify(city.to_dict())
