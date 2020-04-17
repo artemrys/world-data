@@ -1,3 +1,4 @@
+import logging
 import os
 
 import flask
@@ -27,6 +28,7 @@ def get_countries(_: flask.Request):
 def get_country(request: flask.Request):
     validator.get_country_validator(request)
     country_arg = request.args.get("country")
+    logging.info(f"get_country: {country_arg}")
     country_ref = db.document(f"countries/{country_arg}")
     country_doc = country_ref.get()
     if not country_doc.exists:
@@ -37,6 +39,7 @@ def get_country(request: flask.Request):
 def get_cities(request: flask.Request):
     validator.get_cities_validator(request)
     country_arg = request.args.get("country")
+    logging.info(f"get_cities: {country_arg}")
     country_ref = db.document(f"countries/{country_arg}")
     if not country_ref.get().exists:
         raise NotFound
@@ -52,6 +55,7 @@ def get_cities(request: flask.Request):
 def get_city(request: flask.Request):
     validator.get_city_validator(request)
     city_arg = request.args.get("city")
+    logging.info(f"get_city: {city_arg}")
     city_ref = db.document(f"cities/{city_arg}")
     city_doc = city_ref.get()
     if not city_doc.exists:
