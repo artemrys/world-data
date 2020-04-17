@@ -4,3 +4,4 @@ app.py
 .git
 local-run-key.json
 .gitignore
+.pytest_cache
