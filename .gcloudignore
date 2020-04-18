@@ -7,3 +7,5 @@ local-run-key.json
 .pytest_cache
 *_test.py
 openapi.yaml
+__pycache__
+.idea
