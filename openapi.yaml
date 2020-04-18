@@ -36,7 +36,7 @@ paths:
           description: A successful response
       x-google-quota:
         metricCosts:
-          "v1-read-requests": 1
+          "v1-read-requests": 5
       security:
         - api_key: []
   /api/v1/countries/{country}:
@@ -44,7 +44,7 @@ paths:
       summary: Gets country specific information
       operationId: v1_country
       x-google-backend:
-        address: https://us-central1-world-data-274301.cloudfunctions.net/get-country-info
+        address: https://us-central1-world-data-274301.cloudfunctions.net/get-country
         path_translation: CONSTANT_ADDRESS
       parameters:
         - in: path
@@ -56,7 +56,7 @@ paths:
           description: A successful response
       x-google-quota:
         metricCosts:
-          "v1-read-requests": 1
+          "v1-read-requests": 5
       security:
         - api_key: []
   /api/v1/countries/{country}/cities:
@@ -76,7 +76,7 @@ paths:
           description: A successful response
       x-google-quota:
         metricCosts:
-          "v1-read-requests": 1
+          "v1-read-requests": 5
       security:
             - api_key: []
   /api/v1/cities/{city}:
@@ -84,7 +84,7 @@ paths:
       summary: Gets specific city
       operationId: v1_city
       x-google-backend:
-        address: https://us-central1-world-data-274301.cloudfunctions.net/get-city-info
+        address: https://us-central1-world-data-274301.cloudfunctions.net/get-city
         path_translation: CONSTANT_ADDRESS
       parameters:
           - in: path
@@ -96,7 +96,7 @@ paths:
           description: A successful response
       x-google-quota:
         metricCosts:
-          "v1-read-requests": 1
+          "v1-read-requests": 5
       security:
             - api_key: []
 
