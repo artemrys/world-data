@@ -5,3 +5,5 @@ app.py
 local-run-key.json
 .gitignore
 .pytest_cache
+*_test.py
+openapi.yaml
